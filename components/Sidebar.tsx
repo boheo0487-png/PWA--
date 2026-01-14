@@ -8,15 +8,18 @@ import {
   Zap,
   Box,
   ChevronRight,
-  LogOut
+  LogOut,
+  AppWindow,
+  BarChart3
 } from 'lucide-react';
 
 const Sidebar: React.FC = () => {
   const menuItems = [
     { icon: <LayoutDashboard className="w-5 h-5" />, label: '工作台', active: true },
     { icon: <Globe className="w-5 h-5" />, label: '域名中台', active: false },
-    { icon: <Box className="w-5 h-5" />, label: '资产中心', active: false },
-    { icon: <Zap className="w-5 h-5" />, label: '自动化工作流', active: false },
+    { icon: <AppWindow className="w-5 h-5" />, label: '应用中心', active: false },
+    { icon: <Link2 className="w-5 h-5" />, label: '推广链接', active: false },
+    { icon: <BarChart3 className="w-5 h-5" />, label: '归因平台', active: false },
     { icon: <Settings className="w-5 h-5" />, label: '偏好设置', active: false },
   ];
 
@@ -42,14 +45,12 @@ const Sidebar: React.FC = () => {
                 : 'text-slate-400 hover:text-slate-900 hover:bg-white hover:shadow-sm'
             }`}
           >
-            {/* Static Indicator */}
             {item.active ? (
               <div className="absolute left-2 w-1.5 h-6 bg-indigo-600 rounded-full shadow-[0_0_12px_rgba(99,102,241,0.6)]"></div>
             ) : (
               <div className="absolute left-2 w-1 h-3 bg-indigo-200 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
             )}
 
-            {/* Icon Container (Simplified) */}
             <div className="relative flex items-center justify-center">
               <span className={`${item.active ? 'text-indigo-600' : 'text-slate-300 group-hover:text-indigo-500'} relative transition-colors duration-200`}>
                 {item.icon}

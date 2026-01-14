@@ -1,39 +1,67 @@
 
 import React from 'react';
-import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface StatCardProps {
   title: string;
-  value: string;
-  change: string;
-  isPositive: boolean;
+  cumulativeLabel: string;
+  cumulativeValue: string;
+  todayLabel: string;
+  todayValue: string;
   icon: React.ReactNode;
-  color: 'indigo' | 'emerald' | 'rose' | 'amber';
+  color: 'pink' | 'purple' | 'orange' | 'blue';
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, change, isPositive, icon, color }) => {
-  const colors = {
-    indigo: 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white',
-    emerald: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white',
-    rose: 'bg-rose-50 text-rose-600 group-hover:bg-rose-600 group-hover:text-white',
-    amber: 'bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white'
+const StatCard: React.FC<StatCardProps> = ({ 
+  title, 
+  cumulativeLabel, 
+  cumulativeValue, 
+  todayLabel, 
+  todayValue, 
+  icon, 
+  color 
+}) => {
+  const colorStyles = {
+    pink: {
+      bg: 'bg-pink-50',
+      text: 'text-pink-500',
+      iconBg: 'bg-pink-100 text-pink-500'
+    },
+    purple: {
+      bg: 'bg-purple-50',
+      text: 'text-purple-500',
+      iconBg: 'bg-purple-100 text-purple-500'
+    },
+    orange: {
+      bg: 'bg-orange-50',
+      text: 'text-orange-500',
+      iconBg: 'bg-orange-100 text-orange-500'
+    },
+    blue: {
+      bg: 'bg-sky-50',
+      text: 'text-sky-500',
+      iconBg: 'bg-sky-100 text-sky-500'
+    }
   };
 
+  const style = colorStyles[color];
+
   return (
-    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-2 transition-all duration-500 cursor-default group">
-      <div className="flex items-center justify-between mb-8">
-        <div className={`w-14 h-14 ${colors[color]} rounded-2xl flex items-center justify-center transition-all duration-500`}>
+    <div className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm flex flex-col space-y-5">
+      <div className="flex items-center gap-3">
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${style.iconBg}`}>
           {icon}
         </div>
-        <div className={`flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black transition-all duration-300 group-hover:scale-110 ${isPositive ? 'bg-emerald-50 text-emerald-600 shadow-emerald-100/50' : 'bg-rose-50 text-rose-600 shadow-rose-100/50'} group-hover:shadow-md`}>
-          {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-          {change}
-        </div>
+        <h3 className="text-base font-bold text-slate-800">{title}</h3>
       </div>
-      
+
       <div className="space-y-1">
-        <p className="text-xs font-black text-slate-400 uppercase tracking-widest group-hover:text-slate-500 transition-colors">{title}</p>
-        <h3 className="text-3xl font-extrabold text-slate-900 tracking-tighter group-hover:text-indigo-600 transition-colors duration-500">{value}</h3>
+        <p className="text-xs font-semibold text-slate-400">{cumulativeLabel}</p>
+        <p className="text-3xl font-bold text-slate-900">{cumulativeValue}</p>
+      </div>
+
+      <div className="space-y-1 pt-2">
+        <p className="text-xs font-semibold text-slate-400">{todayLabel}</p>
+        <p className={`text-xl font-bold ${style.text}`}>{todayValue}</p>
       </div>
     </div>
   );

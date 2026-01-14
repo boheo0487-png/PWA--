@@ -1,27 +1,42 @@
 
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { 
+  AreaChart, 
+  Area, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  ReferenceLine
+} from 'recharts';
 
 const data = [
-  { name: 'Nov 01', value: 12400 },
-  { name: 'Nov 05', value: 18900 },
-  { name: 'Nov 10', value: 15600 },
-  { name: 'Nov 15', value: 24500 },
-  { name: 'Nov 20', value: 22100 },
-  { name: 'Nov 25', value: 31200 },
-  { name: 'Nov 30', value: 28900 },
+  { name: '02', value: 2000 },
+  { name: '03', value: 2350 },
+  { name: '04', value: 2500 },
+  { name: '05', value: 2300 },
+  { name: '06', value: 1950 },
+  { name: '07', value: 1550 },
+  { name: '08', value: 2050 },
+  { name: '09', value: 1950 },
+  { name: '10', value: 1800 },
+  { name: '11', value: 1850 },
+  { name: '12', value: 1900 },
+  { name: '13', value: 1950 },
+  { name: '14', value: 1850 },
+  { name: '15', value: 1750 },
+  { name: '16', value: 2200 },
+  { name: '17', value: 2600 },
+  { name: '18', value: 2750 },
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-slate-900 text-white p-5 rounded-[1.5rem] shadow-2xl border-none">
-        <p className="text-[10px] uppercase font-black tracking-[0.2em] text-slate-400 mb-2">{label}</p>
-        <div className="flex items-center gap-3">
-          <div className="w-3 h-3 bg-indigo-500 rounded-full shadow-[0_0_8px_#6366f1]"></div>
-          <p className="text-2xl font-black">{payload[0].value.toLocaleString()}</p>
-        </div>
-        <p className="text-[10px] font-bold text-slate-500 mt-1 italic">Total Link Clicks</p>
+      <div className="bg-white p-4 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-slate-50 flex flex-col items-center">
+        <p className="text-xs font-bold text-slate-400 mb-1">5月安装量</p>
+        <p className="text-2xl font-black text-pink-500">152334</p>
       </div>
     );
   }
@@ -31,36 +46,49 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const AnalyticsChart: React.FC = () => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={data}>
+      <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
         <defs>
-          <linearGradient id="indigoFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6366f1" stopOpacity={0.15}/>
-            <stop offset="100%" stopColor="#6366f1" stopOpacity={0}/>
+          <linearGradient id="pinkGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#f472b6" stopOpacity={0.1}/>
+            <stop offset="95%" stopColor="#f472b6" stopOpacity={0}/>
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="10 10" vertical={false} stroke="#f1f5f9" />
+        <CartesianGrid vertical={false} stroke="#f1f5f9" />
         <XAxis 
           dataKey="name" 
           axisLine={false} 
           tickLine={false} 
-          tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em' }}
-          dy={20}
+          tick={{ fill: '#94a3b8', fontSize: 12, fontWeight: 500 }}
+          dy={15}
         />
         <YAxis 
-          hide={true}
+          axisLine={false}
+          tickLine={false}
+          tick={{ fill: '#cbd5e1', fontSize: 12 }}
+          domain={[0, 3000]}
+          ticks={[0, 500, 1000, 1500, 2000, 2500, 3000]}
         />
         <Tooltip 
           content={<CustomTooltip />} 
-          cursor={{ stroke: '#6366f1', strokeWidth: 2, strokeDasharray: '0' }} 
+          cursor={{ stroke: '#f472b6', strokeWidth: 1, strokeDasharray: '4 4' }} 
         />
+        
+        {/* Specific Reference Line as seen in the image at position '07' */}
+        <ReferenceLine 
+          x="07" 
+          stroke="#f472b6" 
+          strokeDasharray="3 3" 
+          strokeWidth={1.5}
+        />
+
         <Area 
           type="monotone" 
           dataKey="value" 
-          stroke="#6366f1" 
-          strokeWidth={4}
-          fill="url(#indigoFade)" 
-          dot={{ r: 6, fill: '#6366f1', strokeWidth: 4, stroke: '#fff' }}
-          activeDot={{ r: 8, fill: '#6366f1', stroke: '#fff', strokeWidth: 4, shadow: '0 0 20px rgba(99, 102, 241, 0.4)' }}
+          stroke="#f472b6" 
+          strokeWidth={3}
+          fill="url(#pinkGradient)" 
+          dot={{ r: 0 }}
+          activeDot={{ r: 5, fill: '#f472b6', stroke: '#fff', strokeWidth: 2 }}
         />
       </AreaChart>
     </ResponsiveContainer>
